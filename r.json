@@ -1,0 +1,27 @@
+{
+	"boot":"/boot/loader",
+	"middlewares":"/routes/middlewares",
+	"routemeta":"/routes/middlewares/routemeta",
+	"apiuserroutemeta":"/routes/middlewares/verifyapiuser",
+	"appvalues":"/utils/appvalues",
+	"generate_nuban":"/utils/genuban",
+	"obval":"/utils/obval",
+	"services":"/services",
+	"mt1l":"/utils/index",
+	"app_config":"/config/app",
+	"models":"/models/sequelize",
+	"service_tester":"/utils/tester",
+	"logger":"/utils/logger",
+	"errorlogger":"/utils/logger",
+	"qb":"/utils/querybuilder",
+	"paginate":"/utils/paginate",
+	"obscrub":"/utils/obscrub",
+	"mongo_models":"/models/mongo",
+	"mongolog":"/services/mongologs/create",
+	"validators":"/utils/validators",
+	"assertions":"/utils/assertions",
+	"sanitizers":"/utils/sanitizers",
+	"testutils":"/utils/testutils",
+	"currencies":"/currencies.json"
+
+}
