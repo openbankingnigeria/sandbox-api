@@ -1,28 +1,13 @@
-
-/*
-Attempt loading env files
-*/
-try{
-	var envJSON = require('./config/env.json');
-	for(var envProp in envJSON){
-		process.env[envProp] = envJSON[envProp];
-	}
-	//console.log(envJSON);
-}
-catch (e){
-	//console.log(e);
-}
-//========================
-var models     = require('./models/sequelize');
-var express    = require('express');
-var appConfig  = require('./config/app');
+var models = require('./models/sequelize');
+var express = require('express');
+var appConfig = require('./config/app');
 var bodyParser = require('body-parser');
 var path = require('path');
 var OAuth2Server = require('oauth2-server');
 var Request = OAuth2Server.Request;
 var Response = OAuth2Server.Response;
 
-var app    = express();
+var app = express();
 const api_meta_routes = require('./routes/api_meta');
 const api_branch_routes = require('./routes/api_branch');
 const api_atm_routes = require('./routes/api_atm');
@@ -80,34 +65,39 @@ var view_routes = require('./view_routes');*/
 app.use(express.static(path.join(__dirname, 'pub')));
 //************//
 
-
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-if(process.env.MONGODB_URI) {
+if (process.env.MONGODB_URI) {
   const mg = require('mongoose');
-  mg.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false }); 
+  mg.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
 }
 const reqIp = require('request-ip');
 const logger = require('mlar')('mongolog');
 const scrubber = require('mlar')('obscrub');
 const SCRUBVALS = require('./utils/scrubvals.json');
 
-
-if(process.env.DELAY_REQ) {
+if (process.env.DELAY_REQ) {
   app.use((req, res, next) => {
     const delay = isNaN(process.env.DELAY_REQ * 1) ? 3 : process.env.DELAY_REQ * 1;
     setTimeout(() => {
       next();
     }, delay * 1000);
-  })
+  });
 }
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, token, customerId, customerid, customer");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization, token, customerId, customerid, customer'
+  );
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  const reqid = req.body.requestId || req.query.requestId || req.headers.requestid || 'REQ' + Math.ceil(Date.now() + (Math.random() * 98984328));
+  const reqid =
+    req.body.requestId ||
+    req.query.requestId ||
+    req.headers.requestid ||
+    'REQ' + Math.ceil(Date.now() + Math.random() * 98984328);
   res._$app_reqid = reqid; //Need this so response can have the value for logging as well
   res._$app_reqip = reqIp.getClientIp(req);
   const scrubs = SCRUBVALS;
@@ -121,7 +111,7 @@ app.use(function(req, res, next) {
     query: scrubber(req.query, scrubs),
     headers: scrubber(req.headers, scrubs),
     useragent: req.headers['user-agent']
-  } 
+  };
   logger({
     type: 'api_call',
     id: reqid,
@@ -132,13 +122,12 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get("/", function (req, res, next){
-
-  res.json({version:1.0})
-
-})
-
 const version = '/v1';
+
+app.get(version, function(req, res, next) {
+  res.json({ version: 1.0 });
+});
+
 const oauthversion = '/oauth2/v1';
 app.use(version, api_meta_routes(EndpointRouter));
 app.use(version, api_branch_routes(EndpointRouter));
@@ -155,22 +144,28 @@ app.use(version, api_dashboard_routes(EndpointRouter));
 app.use(version, api_direct_debit_routes(EndpointRouter));
 app.use(version, internals_model_routes(EndpointRouter));
 
-app.use(oauthversion, (req, res, next) => { req.oauthConfig =  {oauth: app.oauth, Request, Response}; next(); }, api_oauth_routes(EndpointRouter));
-
+app.use(
+  oauthversion,
+  (req, res, next) => {
+    req.oauthConfig = { oauth: app.oauth, Request, Response };
+    next();
+  },
+  api_oauth_routes(EndpointRouter)
+);
 
 app.get('/swagger.json', (req, res) => {
   const swagger = require('./public/swagger.json');
   res.json(swagger);
-})
+});
 
 //Handle undefined routes
 let mt1l = null;
 app.use(version, (req, res) => {
-  if(!mt1l) {
+  if (!mt1l) {
     mt1l = require('mlar')('mt1l');
   }
   mt1l.json(res, null, `${req.method} ${req.path} does not exist or has not been implemented yet`, 'error', 404);
-})
+});
 
 //app.use(view_routes); //front end
 /*
@@ -178,16 +173,14 @@ Handle 404
 */
 //app.use(mosh.initMoshErrorHandler);
 
-
 var force_sync = process.env.FORCESYNC ? true : false;
 
-var stage = process.env.NODE_ENV || "development-local";
-if (stage === "development" || stage === "test" || stage === "local" || stage === "production" || stage === "development-local") {
-  models.sequelize.sync({force: force_sync}).then(function () {
-    app.listen(appConfig.port, function () {
+var stage = process.env.NODE_ENV || 'development-local';
+if (stage === 'development' || stage === 'test' || stage === 'local' || stage === 'production' || stage === 'development-local') {
+  models.sequelize.sync({ force: force_sync }).then(function() {
+    app.listen(appConfig.port, function() {
       //runWorker();
-      console.log([appConfig.name, 'is running on port', appConfig.port.toString()].join(" "));
+      console.log([appConfig.name, 'is running on port', appConfig.port.toString()].join(' '));
     });
   });
 }
-

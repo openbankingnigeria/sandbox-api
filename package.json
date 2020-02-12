@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "OB SANDBOX API",
   "main": "app.js",
-  "engines" : { "node" : "11.15.0" } ,
+  "engines": {
+    "node": "11.15.0"
+  },
   "scripts": {
     "test": "mocha reporter --spec",
     "start": "node_modules/.bin/sequelize db:migrate && node app.js"
