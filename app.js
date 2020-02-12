@@ -138,7 +138,7 @@ app.get("/", function (req, res, next){
 
 })
 
-const version = '/v1';
+const version = '/api/v1';
 const oauthversion = '/oauth2/v1';
 app.use(version, api_meta_routes(EndpointRouter));
 app.use(version, api_branch_routes(EndpointRouter));
