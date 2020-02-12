@@ -16,7 +16,7 @@ function vinfo(req, res, next) {
 vinfo.routeConfig = {};
 vinfo.routeConfig.path = '/signup';
 vinfo.routeConfig.method = 'post';
-vinfo.routeConfig.middlewares = [routemeta('dev_signup', 'dev')];
+vinfo.routeConfig.middlewares = [];
 module.exports = vinfo;
 
 /*
