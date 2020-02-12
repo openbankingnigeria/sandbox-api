@@ -122,7 +122,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-const version = '/v1';
+const version = '/api/v1';
 
 app.get(version, function(req, res, next) {
   res.json({ version: 1.0 });
