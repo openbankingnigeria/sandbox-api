@@ -128,7 +128,7 @@ app.get(version, function(req, res, next) {
   res.json({ version: 1.0 });
 });
 
-const oauthversion = '/oauth2/v1';
+const oauthversion = '/api/v1/oauth2/v1';
 app.use(version, api_meta_routes(EndpointRouter));
 app.use(version, api_branch_routes(EndpointRouter));
 app.use(version, api_atm_routes(EndpointRouter));
@@ -153,7 +153,7 @@ app.use(
   api_oauth_routes(EndpointRouter)
 );
 
-app.get('/swagger.json', (req, res) => {
+app.get('/api/v1/swagger.json', (req, res) => {
   const swagger = require('./public/swagger.json');
   res.json(swagger);
 });
