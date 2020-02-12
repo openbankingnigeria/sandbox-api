@@ -153,7 +153,7 @@ app.use(
   api_oauth_routes(EndpointRouter)
 );
 
-app.get('/swagger.json', (req, res) => {
+app.get('/api/v1/swagger.json', (req, res) => {
   const swagger = require('./public/swagger.json');
   res.json(swagger);
 });
