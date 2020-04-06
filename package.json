@@ -34,7 +34,7 @@
     "oauth2-server": "^3.0.1",
     "q": "1.4.1",
     "request-ip": "^2.1.1",
-    "sequelize": "3.29.0",
+    "sequelize": "5.15.1",
     "sequelize-cli": "^2.4.0",
     "underscore": "1.8.3",
     "uuid": "3.1.0",
