@@ -39,7 +39,7 @@
     "underscore": "1.8.3",
     "uuid": "3.1.0",
     "valid-url": "^1.0.9",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
