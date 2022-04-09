@@ -21,7 +21,7 @@
     "jsonwebtoken": "^7.2.1",
     "mlar": "0.0.1",
     "mlite": "0.0.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mongoose": "^5.7.5",
     "morx": "0.0.5",
     "morx-cha": "0.0.7",
