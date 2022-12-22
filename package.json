@@ -18,7 +18,7 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.0",
     "express-validator": "^6.2.0",
-    "jsonwebtoken": "^7.2.1",
+    "jsonwebtoken": "^9.0.0",
     "mlar": "0.0.1",
     "mlite": "0.0.3",
     "moment": "^2.24.0",
